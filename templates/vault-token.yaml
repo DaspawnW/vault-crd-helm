@@ -1,0 +1,8 @@
+{{- if eq .Values.vaultCRD.vaultAuth "token" }}
+apiVersion: v1
+kind: Secret
+metadata:
+    name: vault-token
+data:
+    token: "{{required "Vault token must be specified" .Values.vaultCRD.vaultToken | b64enc}}"
+{{ end }}

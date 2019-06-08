@@ -1,0 +1,55 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ include "vault-crd.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "vault-crd.name" . }}
+    helm.sh/chart: {{ include "vault-crd.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "vault-crd.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "vault-crd.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      serviceAccountName: vault-crd-serviceaccount
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.vaultCRD.repository }}:{{ .Values.vaultCRD.tag }}"
+          imagePullPolicy: {{ .Values.vaultCRD.pullPolicy }}
+          env:
+            - name: JAVA_OPTS
+              value: "-Xms{{ .Values.vaultCRD.memory }}m -Xmx{{ .Values.vaultCRD.memory }}m"
+            - name: KUBERNETES_VAULT_URL
+              value: "{{required "Vault url must be specified please follow value instructions" .Values.vaultCRD.vaultUrl }}"
+            {{- if eq .Values.vaultCRD.vaultAuth "token" }}
+            - name: KUBERNETES_VAULT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: token
+                  name: vault-token
+            {{ else }}
+            - name: KUBERNETES_VAULT_AUTH
+              value: "serviceAccount"
+            - name: KUBERNETES_VAULT_ROLE
+              value: "{{required "If Vault Auth is serviceAccount Kubernetes role must be specified" .Values.vaultCRD.vaultRole }}"
+            {{ end }}
+          resources:
+            limits:
+              memory: "{{ .Values.vaultCRD.memoryLimit }}Mi"
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /actuator/health
+            initialDelaySeconds: 30
+            failureThreshold: 3
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 5

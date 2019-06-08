@@ -1,0 +1,29 @@
+# Default values for vault-crd.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+vaultCRD:
+  repository: daspawnw/vault-crd
+  tag: 1.2.2
+  pullPolicy: IfNotPresent
+
+  # Please specify here the URL to your Vault installation. Don't forget to set the /v1/ path e.g. http://localhost:8080/v1/
+  vaultUrl:
+
+  # Specifies the used authentication method the following values are allowed: token | serviceAccount
+  vaultAuth: token
+
+  # Token with access to the resources that Vault-CRD shares from Vault to Kubernetes. Required if vaultAuth = token
+  vaultToken:
+
+  # If you use the Service Account approach for Vault authentication please specify here the Vault role. Required if vaultAuth = serviceAccount
+  vaultRole:
+
+  # Should it generate rbac resources
+  rbac: true
+
+  # JVM Max memory in mb
+  memory: 256
+
+  # Container max memory in mb should be 20% higher then jvm
+  memoryLimit: 307
