@@ -45,3 +45,6 @@ helm install --name vault --namespace vault-crd ./vault-crd \
     --set vaultCRD.vaultToken=uuid 
 ```
 
+## Issues
+
+Please write issues to the main projects issues: https://github.com/DaspawnW/vault-crd/issues
