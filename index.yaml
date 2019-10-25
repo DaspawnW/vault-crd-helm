@@ -1,0 +1,13 @@
+apiVersion: v1
+entries:
+  vault-crd:
+  - apiVersion: v1
+    appVersion: 1.2.2
+    created: "2019-09-04T09:03:28.751593-05:00"
+    description: Helm chart for vault-crd
+    digest: f49b095492077c1a3c2eb6bcd4d6ad34a008a8e50cc62bb178376f3d52eba4b2
+    name: vault-crd
+    urls:
+    - dist/vault-crd-0.1.0.tgz
+    version: 0.1.0
+generated: "2019-09-04T09:03:28.750986-05:00"

@@ -28,10 +28,17 @@ Parameter | Description | Default
 
 
 ## How to
+
+Add Helm repository
+
+```
+helm repo add vault-crd https://raw.githubusercontent.com/DaspawnW/vault-crd-helm/master
+```
+
 When used with serviceAccount:
 
 ```
-helm install --name vault --namespace vault-crd ./vault-crd \
+helm install --name vault --namespace vault-crd vault-crd/vault-crd \
     --set vaultCRD.vaultUrl=http://localhost:8080/v1/ \
     --set vaultCRD.vaultAuth=serviceAccount \
     --set vaultCRD.vaultRole=test 
@@ -40,9 +47,9 @@ helm install --name vault --namespace vault-crd ./vault-crd \
 When used with Token:
 
 ```
-helm install --name vault --namespace vault-crd ./vault-crd \
+helm install --name vault --namespace vault-crd vault-crd/vault-crd \
     --set vaultCRD.vaultUrl=http://localhost:8080/v1/ \
-    --set vaultCRD.vaultToken=uuid 
+    --set vaultCRD.vaultToken=uuid
 ```
 
 ## Issues
