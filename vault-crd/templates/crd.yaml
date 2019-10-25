@@ -30,6 +30,7 @@ spec:
                 - DOCKERCFG
                 - KEYVALUE
                 - KEYVALUEV2
+                - PROPERTIES
             pkiConfiguration:
               type: object
               properties:
@@ -51,11 +52,19 @@ spec:
                   type: string
                 keyName:
                   type: string
+                caAlias:
+                  type: string
             versionConfiguration:
               type: object
               properties:
                 version:
                   type: integer
+            propertiesConfiguration:
+              type: object
+              properties:
+                context:
+                  type: object
+                files:
+                  type: object
           required:
-            - path
             - type
