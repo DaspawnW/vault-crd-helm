@@ -6,7 +6,51 @@ metadata:
 
 {{- if .Values.vaultCRD.rbac }}
 ---
-
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: "{{ include "vault-crd.fullname" . }}-pod-running-policy"
+  namespace: {{ .Release.Namespace }}
+  labels:
+    name: podsecuritypolicy
+spec:
+  privileged: false
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  runAsUser:
+    rule: RunAsAny
+  fsGroup:
+    rule: RunAsAny
+  volumes:
+  - '*'
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: "{{ include "vault-crd.fullname" . }}-use-pod-security-policy-role"
+  namespace: {{ .Release.Namespace }}
+rules:
+- apiGroups: ['policy']
+  resources: ['podsecuritypolicies']
+  verbs: ["use"]
+  resourceNames:
+    - "{{ include "vault-crd.fullname" . }}-pod-running-policy"
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: "{{ include "vault-crd.fullname" . }}-use-pod-security-policy"
+  namespace: {{ .Release.Namespace }}
+subjects:
+- kind: ServiceAccount
+  name: vault-crd-serviceaccount
+roleRef:
+  kind: Role
+  name: "{{ include "vault-crd.fullname" . }}-use-pod-security-policy-role"
+  apiGroup: rbac.authorization.k8s.io
+---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
@@ -36,9 +80,7 @@ rules:
   - patch
   - update
   - delete
-
 ---
-
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
