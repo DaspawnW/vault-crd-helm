@@ -27,9 +27,3 @@ vaultCRD:
 
   # Container max memory in mb should be 20% higher then jvm
   memoryLimit: 307
-
-secrets:
-# list of secrets, paths, and types of secrets to be rendered into kube secret
-- name: ## "fakeSecret1"
-  path: ## "secret/fake/path"
-  type: ## "KEYVALUE" https://vault.koudingspawn.de/supported-secret-types
