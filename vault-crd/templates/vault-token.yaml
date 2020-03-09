@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Secret
 metadata:
-    name: vault-token
+    name: "{{ include "vault-crd.fullname" . }}-vault-token"
 data:
     token: "{{required "Vault token must be specified" .Values.vaultCRD.vaultToken | b64enc}}"
 {{ end }}
