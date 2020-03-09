@@ -40,6 +40,8 @@ spec:
               value: "serviceAccount"
             - name: KUBERNETES_VAULT_ROLE
               value: "{{required "If Vault Auth is serviceAccount Kubernetes role must be specified" .Values.vaultCRD.vaultRole }}"
+            - name: KUBERNETES_VAULT_PATH
+              value: "{{ .Values.vaultCRD.vaultAuthPath }}"
             {{ end }}
           resources:
             limits:

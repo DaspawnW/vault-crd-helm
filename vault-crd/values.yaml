@@ -4,7 +4,7 @@
 
 vaultCRD:
   repository: daspawnw/vault-crd
-  tag: 1.3.1
+  tag: 1.4.1
   pullPolicy: IfNotPresent
 
   # Please specify here the URL to your Vault installation. Don't forget to set the /v1/ path e.g. http://localhost:8080/v1/
@@ -18,6 +18,9 @@ vaultCRD:
 
   # If you use the Service Account approach for Vault authentication please specify here the Vault role. Required if vaultAuth = serviceAccount
   vaultRole:
+
+  # Path to authentication backend in HashiCorp Vault. Only used if vaultAuth = serviceAccount
+  vaultAuthPath: kubernetes
 
   # Should it generate rbac resources
   rbac: true
