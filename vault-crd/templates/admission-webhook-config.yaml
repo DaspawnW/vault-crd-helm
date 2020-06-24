@@ -1,0 +1,30 @@
+{{- if .Values.vaultCRD.admissionWebhook.enabled }}
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  labels:
+    app: vault-crd
+  name: vault-crd-admission
+webhooks:
+  - name: validate.vault.koudingspawn.de
+    admissionReviewVersions: ["v1beta1"]
+    sideEffects: None
+    rules:
+      - apiGroups:
+          - koudingspawn.de
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - vault
+    failurePolicy: Fail
+    clientConfig:
+      service:
+        namespace: {{ .Release.Namespace }}
+        name: vault-crd
+        path: /validation/vault-crd
+        port: 8080
+      caBundle: {{ .Values.vaultCRD.admissionWebhook.caBase64 }}
+{{ end }}

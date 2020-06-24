@@ -20,12 +20,27 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       serviceAccountName: vault-crd-serviceaccount
+      {{- if .Values.vaultCRD.admissionWebhook.enabled }}
+      initContainers:
+      - name: convert-https
+        image: shamelesscookie/openssl:1.1.1g
+        command:
+          - /bin/bash
+        args:
+          - "-c"
+          - "openssl pkcs12 -export -in /opt/certificate/tls.crt -inkey /opt/certificate/tls.key -out /opt/target/keystore.p12 -passout pass:changeit -name admission-tls"
+        volumeMounts:
+          - mountPath: /opt/certificate
+            name: pem-cert
+          - mountPath: /opt/target
+            name: pkcs12-cert
+      {{ end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.vaultCRD.repository }}:{{ .Values.vaultCRD.tag }}"
           imagePullPolicy: {{ .Values.vaultCRD.pullPolicy }}
           env:
-            - name: JAVA_OPTS
+            - name: JAVA_TOOL_OPTIONS
               value: "-Xms{{ .Values.vaultCRD.memory }}m -Xmx{{ .Values.vaultCRD.memory }}m"
             - name: KUBERNETES_VAULT_URL
               value: "{{required "Vault url must be specified please follow value instructions" .Values.vaultCRD.vaultUrl }}"
@@ -43,6 +58,16 @@ spec:
             - name: KUBERNETES_VAULT_PATH
               value: "{{ .Values.vaultCRD.vaultAuthPath }}"
             {{ end }}
+            {{- if .Values.vaultCRD.admissionWebhook.enabled }}
+            - name: SERVER_SSL_KEY-STORE-TYPE
+              value: PKCS12
+            - name: SERVER_SSL_KEY-STORE
+              value: "/opt/certificate/keystore.p12"
+            - name: SERVER_SSL_KEY-STORE-PASSWORD
+              value: "changeit"
+            - name: SERVER_SSL_KEY-ALIAS
+              value: "admission-tls"
+            {{ end }}
           resources:
             limits:
               memory: "{{ .Values.vaultCRD.memoryLimit }}Mi"
@@ -50,8 +75,22 @@ spec:
             httpGet:
               port: 8080
               path: /actuator/health
+              {{- if .Values.vaultCRD.admissionWebhook.enabled }}
+              scheme: HTTPS
+              {{ end }}
             initialDelaySeconds: 30
             failureThreshold: 3
             periodSeconds: 30
             successThreshold: 1
             timeoutSeconds: 5
+      {{- if .Values.vaultCRD.admissionWebhook.enabled }}
+          volumeMounts:
+            - mountPath: /opt/certificate
+              name: pkcs12-cert
+      volumes:
+        - name: pem-cert
+          secret:
+            secretName: vault-crd-tls
+        - name: pkcs12-cert
+          emptyDir: {}
+      {{ end }}

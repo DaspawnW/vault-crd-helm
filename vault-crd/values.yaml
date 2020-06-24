@@ -4,7 +4,7 @@
 
 vaultCRD:
   repository: daspawnw/vault-crd
-  tag: 1.4.1
+  tag: 1.5.0
   pullPolicy: IfNotPresent
 
   # Please specify here the URL to your Vault installation. Don't forget to set the /v1/ path e.g. http://localhost:8080/v1/
@@ -30,3 +30,9 @@ vaultCRD:
 
   # Container max memory in mb should be 20% higher then jvm
   memoryLimit: 307
+
+  admissionWebhook:
+    enabled: false
+    certBase64: ""
+    keyBase64: ""
+    caBase64: ""

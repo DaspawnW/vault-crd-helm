@@ -1,0 +1,12 @@
+{{- if .Values.vaultCRD.admissionWebhook.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: vault-crd
+spec:
+  selector:
+    app: vault-crd
+  ports:
+    - port: 8080
+  type: ClusterIP
+{{ end }}
