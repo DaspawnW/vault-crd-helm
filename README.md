@@ -29,6 +29,7 @@ Parameter | Description | Default
 `vaultCRD.admissionWebhook.certBase64` | Certificate used for serving admission webhook request in Vault-CRD, can be self signed | ""
 `vaultCRD.admissionWebhook.keyBase64` | Key used for serving admission webhoook request in Vault-CRD, can be self signed | ""
 `vaultCRD.admissionWebhook.caBase64` | Root certificate used to allow apiserver to validate Server tls, can be certBase64 | ""
+`vaultCRD.priorityClassName` | Specify PriorityClass name for pods, unused if not specified | `nil`
 
 
 ## How to
@@ -45,7 +46,7 @@ When used with serviceAccount:
 helm install --name vault --namespace vault-crd vault-crd/vault-crd \
     --set vaultCRD.vaultUrl=http://localhost:8080/v1/ \
     --set vaultCRD.vaultAuth=serviceAccount \
-    --set vaultCRD.vaultRole=test 
+    --set vaultCRD.vaultRole=test
 ```
 
 When used with Token:

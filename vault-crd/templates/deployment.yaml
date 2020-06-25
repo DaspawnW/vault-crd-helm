@@ -94,3 +94,6 @@ spec:
         - name: pkcs12-cert
           emptyDir: {}
       {{ end }}
+      {{- if .Values.vaultCRD.priorityClassName }}
+      priorityClassName: {{ .Values.vaultCRD.priorityClassName }}
+      {{- end }}

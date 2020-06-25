@@ -31,6 +31,9 @@ vaultCRD:
   # Container max memory in mb should be 20% higher then jvm
   memoryLimit: 307
 
+  # Priority class for pods, none specified by default.
+  priorityClassName: null
+
   admissionWebhook:
     enabled: false
     certBase64: ""
