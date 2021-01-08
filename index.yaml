@@ -2,8 +2,17 @@ apiVersion: v1
 entries:
   vault-crd:
   - apiVersion: v2
+    appVersion: 1.6.0
+    created: "2021-01-08T16:29:54.952699293+01:00"
+    description: Helm chart for vault-crd
+    digest: 73c791bb2aca3b4cec2117619db9d6b90e901c960db348487dc9a70d01edc52e
+    name: vault-crd
+    urls:
+    - dist/vault-crd-1.6.0.tgz
+    version: 1.6.0
+  - apiVersion: v2
     appVersion: 1.5.0
-    created: "2020-06-24T23:06:31.582839+02:00"
+    created: "2021-01-08T16:29:54.952127188+01:00"
     description: Helm chart for vault-crd
     digest: 4113d26e15b4cd7a0747e29c17838d9e7eaedfbbe2976e01567194c3ee0fc52c
     name: vault-crd
@@ -12,7 +21,7 @@ entries:
     version: 1.5.0
   - apiVersion: v2
     appVersion: 1.4.1
-    created: "2020-06-24T23:06:31.58248+02:00"
+    created: "2021-01-08T16:29:54.951117646+01:00"
     description: Helm chart for vault-crd
     digest: 3d2bd6d3f0ef325dfa018be24e2599414bab79540f908ac7b3ee5f980678e334
     name: vault-crd
@@ -21,7 +30,7 @@ entries:
     version: 1.4.1
   - apiVersion: v2
     appVersion: 1.3.1
-    created: "2020-06-24T23:06:31.582137+02:00"
+    created: "2021-01-08T16:29:54.950575657+01:00"
     description: Helm chart for vault-crd
     digest: be6fec7d99aaa300960008b16823d1e509cf14b07c5bc334d37663780d9ea97d
     name: vault-crd
@@ -30,7 +39,7 @@ entries:
     version: 1.3.2
   - apiVersion: v1
     appVersion: 1.3.1
-    created: "2020-06-24T23:06:31.581852+02:00"
+    created: "2021-01-08T16:29:54.949649635+01:00"
     description: Helm chart for vault-crd
     digest: 18dba7d599611f6c5454669895f88e9e9121af96c6508f199e560b0c1e294ea8
     name: vault-crd
@@ -39,11 +48,11 @@ entries:
     version: 1.3.1
   - apiVersion: v1
     appVersion: 1.2.2
-    created: "2020-06-24T23:06:31.581553+02:00"
+    created: "2021-01-08T16:29:54.949406903+01:00"
     description: Helm chart for vault-crd
     digest: f49b095492077c1a3c2eb6bcd4d6ad34a008a8e50cc62bb178376f3d52eba4b2
     name: vault-crd
     urls:
     - dist/vault-crd-0.1.0.tgz
     version: 0.1.0
-generated: "2020-06-24T23:06:31.581073+02:00"
+generated: "2021-01-08T16:29:54.948105899+01:00"
