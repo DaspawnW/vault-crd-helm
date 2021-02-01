@@ -89,6 +89,14 @@ rules:
       - update
       - get
       - patch
+  - apiGroups:
+      - apps
+    resources:
+      - statefulsets
+    verbs:
+      - update
+      - get
+      - patch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
