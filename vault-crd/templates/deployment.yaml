@@ -70,7 +70,7 @@ spec:
             {{ end }}
           resources:
             limits:
-              memory: {{ .Values.vaultCRD.memoryLimit }}
+              memory: "{{ .Values.vaultCRD.memoryLimit }}Mi"
           livenessProbe:
             httpGet:
               port: 8080
