@@ -30,3 +30,20 @@ Create chart name and version as used by the chart label.
 {{- define "vault-crd.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+
+{{- define "vault-crd.service-account-name" -}}
+{{ required "vaultCRD.serviceAccountName is required!" .Values.vaultCRD.serviceAccountName  | quote }}
+{{- end -}}
+
+{{- define "vault-crd.pod-running-policy-name" -}}
+{{ printf "%s-%s" (include "vault-crd.fullname" .) "pod-running-policy" }}
+{{- end -}}
+
+{{- define "vault-crd.role-name" -}}
+{{ printf "%s-%s" (include "vault-crd.fullname" .) "use-pod-security-policy-role" }}
+{{- end -}}
+
+{{- define "vault-crd.role-binding-name" -}}
+{{ printf "%s-%s" (include "vault-crd.fullname" .) "use-pod-security-policy" }}
+{{- end -}}

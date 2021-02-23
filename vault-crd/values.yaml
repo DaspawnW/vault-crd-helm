@@ -27,11 +27,9 @@ vaultCRD:
   # Should it generate rbac resources
   rbac: true
 
-  # JVM Max memory in mb
-  memory: 256
+  memory: 256Mi
 
-  # Container max memory in mb should be 20% higher then jvm
-  memoryLimit: 307
+  memoryLimit: 307Mi
 
   admissionWebhook:
     enabled: false
