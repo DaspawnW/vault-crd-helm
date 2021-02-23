@@ -25,7 +25,7 @@ Parameter | Description | Default
 `vaultCRD.rbac` | Should it generate rbac resources | `true`
 `vaultCRD.serviceAccountName` | Name of a service account that should be created | `vault-crd-serviceaccount`
 `vaultCRD.memory` | JVM Max memory in mb | `256`
-`vaultCRD.memoryLimit` | Container max memory should be 20% higher then jvm memory value in mb | `307`
+`vaultCRD.memoryLimit` | Container max memory in mb should be 20% higher then jvm memory value | `307`
 `vaultCRD.admissionWebhook.enabled` | Enable or disable admission webhook to verify if secrets are accessible before apply | `false`
 `vaultCRD.admissionWebhook.certBase64` | Certificate used for serving admission webhook request in Vault-CRD, can be self signed | ""
 `vaultCRD.admissionWebhook.keyBase64` | Key used for serving admission webhoook request in Vault-CRD, can be self signed | ""
