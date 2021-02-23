@@ -23,6 +23,7 @@ Parameter | Description | Default
 `vaultCRD.vaultToken` | Token with access to the resources that Vault-CRD shares from Vault to Kubernetes. Required if vaultAuth = token | `nil`
 `vaultCRD.vaultRole` | If you use the Service Account approach for Vault authentication please specify here the Vault role. Required if vaultAuth = serviceAccount | `nil`
 `vaultCRD.rbac` | Should it generate rbac resources | `true`
+`vaultCRD.serviceAccountName` | Name of a service account that should be created | `vault-crd-serviceaccount`
 `vaultCRD.memory` | JVM Max memory in mb | `256`
 `vaultCRD.memoryLimit` | Container max memory in mb should be 20% higher then jvm memory value | `307`
 `vaultCRD.admissionWebhook.enabled` | Enable or disable admission webhook to verify if secrets are accessible before apply | `false`

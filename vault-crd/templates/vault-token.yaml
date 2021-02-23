@@ -4,5 +4,5 @@ kind: Secret
 metadata:
     name: "{{ include "vault-crd.fullname" . }}-vault-token"
 data:
-    token: "{{required "Vault token must be specified" .Values.vaultCRD.vaultToken | b64enc}}"
+    token: "{{required "vaultCRD.vaultToken token must be specified" .Values.vaultCRD.vaultToken | b64enc}}"
 {{ end }}

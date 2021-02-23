@@ -19,7 +19,7 @@ spec:
         app.kubernetes.io/name: {{ include "vault-crd.fullname" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      serviceAccountName: vault-crd-serviceaccount
+      serviceAccountName: {{ required "vaultCRD.serviceAccountName is required!" .Values.vaultCRD.serviceAccountName }}
       {{- if .Values.vaultCRD.admissionWebhook.enabled }}
       initContainers:
       - name: convert-https
@@ -43,7 +43,7 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: "-Xms{{ .Values.vaultCRD.memory }}m -Xmx{{ .Values.vaultCRD.memory }}m"
             - name: KUBERNETES_VAULT_URL
-              value: "{{required "Vault url must be specified please follow value instructions" .Values.vaultCRD.vaultUrl }}"
+              value: "{{required "vaultCRD.vaultUrl must be specified please follow value instructions" .Values.vaultCRD.vaultUrl }}"
             {{- if eq .Values.vaultCRD.vaultAuth "token" }}
             - name: KUBERNETES_VAULT_TOKEN
               valueFrom:
@@ -54,7 +54,7 @@ spec:
             - name: KUBERNETES_VAULT_AUTH
               value: "serviceAccount"
             - name: KUBERNETES_VAULT_ROLE
-              value: "{{required "If Vault Auth is serviceAccount Kubernetes role must be specified" .Values.vaultCRD.vaultRole }}"
+              value: "{{required "If Vault Auth is serviceAccount Kubernetes role (vaultCRD.vaultRole) must be specified" .Values.vaultCRD.vaultRole }}"
             - name: KUBERNETES_VAULT_PATH
               value: "{{ .Values.vaultCRD.vaultAuthPath }}"
             {{ end }}
