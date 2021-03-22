@@ -2,4 +2,4 @@ apiVersion: v2
 appVersion: "1.6.1"
 description: Helm chart for vault-crd
 name: vault-crd
-version: 1.6.1
+version: 1.6.2
