@@ -19,7 +19,7 @@ spec:
         app.kubernetes.io/name: {{ include "vault-crd.fullname" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      serviceAccountName: vault-crd-serviceaccount
+      serviceAccountName: {{ include "vault-crd.service-account-name" . }}
       {{- if .Values.vaultCRD.admissionWebhook.enabled }}
       initContainers:
       - name: convert-https
@@ -37,26 +37,26 @@ spec:
       {{ end }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.vaultCRD.repository }}:{{ .Values.vaultCRD.tag }}"
+          image: {{ printf "%s:%s" .Values.vaultCRD.repository .Values.vaultCRD.tag }}
           imagePullPolicy: {{ .Values.vaultCRD.pullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
               value: "-Xms{{ .Values.vaultCRD.memory }}m -Xmx{{ .Values.vaultCRD.memory }}m"
             - name: KUBERNETES_VAULT_URL
-              value: "{{required "Vault url must be specified please follow value instructions" .Values.vaultCRD.vaultUrl }}"
+              value: {{ required "vaultCRD.vaultUrl must be specified please follow value instructions" .Values.vaultCRD.vaultUrl | quote }}
             {{- if eq .Values.vaultCRD.vaultAuth "token" }}
             - name: KUBERNETES_VAULT_TOKEN
               valueFrom:
                 secretKeyRef:
                   key: token
-                  name: "{{ include "vault-crd.fullname" . }}-vault-token"
+                  name: {{ printf "%s-%s" (include "vault-crd.fullname" .) "vault-token" | quote }}
             {{ else }}
             - name: KUBERNETES_VAULT_AUTH
               value: "serviceAccount"
             - name: KUBERNETES_VAULT_ROLE
-              value: "{{required "If Vault Auth is serviceAccount Kubernetes role must be specified" .Values.vaultCRD.vaultRole }}"
+              value: {{ required "If Vault Auth is serviceAccount Kubernetes role (vaultCRD.vaultRole) must be specified" .Values.vaultCRD.vaultRole | quote }}
             - name: KUBERNETES_VAULT_PATH
-              value: "{{ .Values.vaultCRD.vaultAuthPath }}"
+              value: {{ .Values.vaultCRD.vaultAuthPath | quote }}
             {{ end }}
             {{- if .Values.vaultCRD.admissionWebhook.enabled }}
             - name: SERVER_SSL_KEY-STORE-TYPE

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: "vault-crd-serviceaccount"
+  name: {{ include "vault-crd.service-account-name" . }}
   namespace: {{ .Release.Namespace }}
 
 {{- if .Values.vaultCRD.rbac }}
@@ -9,7 +9,7 @@ metadata:
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: "{{ include "vault-crd.fullname" . }}-pod-running-policy"
+  name: {{ include "vault-crd.pod-running-policy-name" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     name: podsecuritypolicy
@@ -29,26 +29,26 @@ spec:
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: "{{ include "vault-crd.fullname" . }}-use-pod-security-policy-role"
+  name: {{ include "vault-crd.role-name" . }}
   namespace: {{ .Release.Namespace }}
 rules:
 - apiGroups: ['policy']
   resources: ['podsecuritypolicies']
   verbs: ["use"]
   resourceNames:
-    - "{{ include "vault-crd.fullname" . }}-pod-running-policy"
+    - {{ include "vault-crd.pod-running-policy-name" . }}
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: "{{ include "vault-crd.fullname" . }}-use-pod-security-policy"
+  name: {{ include "vault-crd.role-binding-name" . }}
   namespace: {{ .Release.Namespace }}
 subjects:
 - kind: ServiceAccount
-  name: "vault-crd-serviceaccount"
+  name: {{ include "vault-crd.service-account-name" . }}
 roleRef:
   kind: Role
-  name: "{{ include "vault-crd.fullname" . }}-use-pod-security-policy-role"
+  name: {{ include "vault-crd.role-name" . }}
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -108,6 +108,6 @@ roleRef:
   name: vault-crd-clusterrole
 subjects:
 - kind: ServiceAccount
-  name: "vault-crd-serviceaccount"
+  name: {{ include "vault-crd.service-account-name" . }}
   namespace: {{ .Release.Namespace }}
 {{ end }}

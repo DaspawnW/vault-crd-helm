@@ -21,6 +21,8 @@ vaultCRD:
 
   # Path to authentication backend in HashiCorp Vault. Only used if vaultAuth = serviceAccount
   vaultAuthPath: kubernetes
+  
+  serviceAccountName: vault-crd-serviceaccount
 
   # Should it generate rbac resources
   rbac: true
