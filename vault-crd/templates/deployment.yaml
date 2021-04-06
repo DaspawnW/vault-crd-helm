@@ -68,6 +68,10 @@ spec:
             - name: SERVER_SSL_KEY-ALIAS
               value: "admission-tls"
             {{ end }}
+            {{ range .Values.vaultCRD.env }}
+            - name: {{ .name }}
+              value: {{ .value }}
+            {{ end }}
           resources:
             limits:
               memory: "{{ .Values.vaultCRD.memoryLimit }}Mi"

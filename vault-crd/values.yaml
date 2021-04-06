@@ -24,6 +24,11 @@ vaultCRD:
   
   serviceAccountName: vault-crd-serviceaccount
 
+  # Additional environment variables to be set
+  env: []
+#    - name: KUBERNETES_INTERVAL
+#      value: "600"
+
   # Should it generate rbac resources
   rbac: true
 
