@@ -110,4 +110,18 @@ subjects:
 - kind: ServiceAccount
   name: {{ include "vault-crd.service-account-name" . }}
   namespace: {{ .Release.Namespace }}
+---
+# https://www.vaultproject.io/docs/auth/kubernetes#configuring-kubernetes
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: vault-crd-tokenreview-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+- kind: ServiceAccount
+  name: {{ include "vault-crd.service-account-name" . }}
+  namespace: {{ .Release.Namespace }}
 {{ end }}
