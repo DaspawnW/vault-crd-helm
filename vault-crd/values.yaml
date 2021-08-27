@@ -37,7 +37,9 @@ vaultCRD:
 
   # Container max memory in mb should be 20% higher then jvm
   memoryLimit: 307
-
+  cpuRequest: 100m
+  cpuLimits: 1
+  
   admissionWebhook:
     enabled: false
     certBase64: ""
