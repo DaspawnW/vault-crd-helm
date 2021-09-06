@@ -4,8 +4,13 @@
 
 vaultCRD:
   repository: daspawnw/vault-crd
-  tag: 1.6.1
+  tag: 1.6.3
   pullPolicy: IfNotPresent
+  labels: 
+    team: cc
+    service: vault-crd
+    component: vault-crd
+    environment: ""
 
   # Please specify here the URL to your Vault installation. Don't forget to set the /v1/ path e.g. http://localhost:8080/v1/
   vaultUrl:

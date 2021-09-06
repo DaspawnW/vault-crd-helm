@@ -18,6 +18,9 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "vault-crd.fullname" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- if .Values.vaultCRD.labels }}
+      {{- toYaml .Values.vaultCRD.labels | nindent 8 }}
+      {{- end}}
     spec:
       serviceAccountName: {{ include "vault-crd.service-account-name" . }}
       {{- if .Values.vaultCRD.admissionWebhook.enabled }}
