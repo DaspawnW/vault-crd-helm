@@ -39,6 +39,10 @@ spec:
         - name: {{ .Chart.Name }}
           image: {{ printf "%s:%s" .Values.vaultCRD.repository .Values.vaultCRD.tag }}
           imagePullPolicy: {{ .Values.vaultCRD.pullPolicy }}
+          args: 
+            - "-Dlogging.config=/configs/logs/logback-spring.xml" 
+            - "-jar" 
+            - "/opt/vault-crd.jar" 
           env:
             - name: JAVA_TOOL_OPTIONS
               value: "-Xms{{ .Values.vaultCRD.memory }}m -Xmx{{ .Values.vaultCRD.memory }}m"
@@ -91,14 +95,23 @@ spec:
             periodSeconds: 30
             successThreshold: 1
             timeoutSeconds: 5
-      {{- if .Values.vaultCRD.admissionWebhook.enabled }}
           volumeMounts:
+            - name: logback-volume
+              mountPath: /config/logs
+      {{- if .Values.vaultCRD.admissionWebhook.enabled }}
             - mountPath: /opt/certificate
               name: pkcs12-cert
+      {{- end }}
       volumes:
+      {{- if .Values.vaultCRD.admissionWebhook.enabled }}
         - name: pem-cert
           secret:
             secretName: vault-crd-tls
         - name: pkcs12-cert
           emptyDir: {}
       {{ end }}
+        - name: logback-volume
+          configMap:
+            # Provide the name of the ConfigMap containing the files you want
+            # to add to the container
+            name: {{ include "vault-crd.fullname" . }}-logback
