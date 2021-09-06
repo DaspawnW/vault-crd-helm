@@ -40,7 +40,7 @@ spec:
           image: {{ printf "%s:%s" .Values.vaultCRD.repository .Values.vaultCRD.tag }}
           imagePullPolicy: {{ .Values.vaultCRD.pullPolicy }}
           args: 
-            - "-Dlogging.config=/configs/logs/logback-spring.xml" 
+            - "-Dlogging.config=/config/logs/logback-spring.xml" 
             - "-jar" 
             - "/opt/vault-crd.jar" 
           env:
